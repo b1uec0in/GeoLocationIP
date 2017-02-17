@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<style>
+#map-canvas {
+	height: 80%;
+	margin: 0px;
+	padding: 0px
+}
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ko"></script>
+<script type="text/javascript">
+
+
+var map = null;
+
+function geolocationip() {
+
+    var url = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBAXF2VTWX-Qdhx20fDZsbnGiuNfGXVv6o";
+    var data = JSON.stringify({"considerIp":"true"});
+
+
+    xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var json = JSON.parse(xhr.responseText);
+            console.log(json)
+            document.getElementById("locdesc").innerHTML = JSON.stringify(json);
+            loadMap(json.location.lat, json.location.lng);
+        }
+    }
+    xhr.send(data);
+}
+
+function loadMap(lat, lng) {
+    var pos = new google.maps.LatLng(lat, lng);
+    var mapOptions = {
+            zoom:16,
+            center:pos,
+            panControl:false,
+            zoomControl:true,
+            zoomControlOptions:{
+        position:
+        google.maps.ControlPosition.RIGHT_BOTTOM
+    },
+    mapTypeControl:
+    true,
+            scaleControl:true,
+            streetViewControl:false,
+            overviewMapControl:false,
+            mapTypeId:google.maps.MapTypeId.ROADMAP,
+    }
+    map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+    var myPos = new google.maps.LatLng(lat, lng);
+    var myPosMarker = new google.maps.Marker({
+            icon:
+    new google.maps.MarkerImage('http://maps.google.com/mapfiles/ms/micons/blue.png'),
+            position:myPos,
+            map:map
+    });
+}
+
+</script>
+</head>
+<body>
+<button onclick="geolocationip()" >Google geolocation by IP </button><br/>
+Location: <span id="locdesc"></span><br/>
+<div id="map-canvas"></div>
+</body>
+</html>
