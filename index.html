@@ -27,7 +27,7 @@ function geolocationip() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
             console.log(json)
-            document.getElementById("locdesc").innerHTML = JSON.stringify(json);
+            document.getElementById("locdesc").innerHTML = JSON.stringify(json).replace(/,/g,",\n<br/>");
             loadMap(json.location.lat, json.location.lng);
         }
     }
