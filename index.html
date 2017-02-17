@@ -63,11 +63,13 @@ function loadMap(lat, lng) {
     });
 }
 
+google.maps.event.addDomListener(window, 'load', geolocationip);
+
 </script>
 </head>
 <body>
 <button onclick="geolocationip()" >Google geolocation by IP </button><br/>
-Location: <span id="locdesc"></span><br/>
+<span id="locdesc"></span><br/>
 <div id="map-canvas"></div>
 </body>
 </html>
