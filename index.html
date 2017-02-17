@@ -26,8 +26,13 @@ function geolocationip() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log(json)
-            document.getElementById("locdesc").innerHTML = JSON.stringify(json).replace(/,/g,",\n<br/>");
+            console.log(json);
+            var msg = JSON.stringify(json);
+            document.getElementById("locdesc").innerHTML = msg;
+            if (json != undefined && json.location) {
+                 msg =  "lat,lng: " + Math.round(json.location.lat*10000)/10000 + ", " + Math.round(json.location.lng*10000)/10000 + " , accuracy: "+ json.accuracy;
+            }
+            document.getElementById("locdesc").innerHTML = msg;
             loadMap(json.location.lat, json.location.lng);
         }
     }
